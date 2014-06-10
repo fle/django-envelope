@@ -13,7 +13,13 @@ from django.shortcuts import redirect
 from django.views.generic import FormView
 
 from envelope import signals
-from envelope.forms import ContactForm
+
+from envelope.settings import ENVELOPE_USE_FLOPPYFORMS
+
+if ENVELOPE_USE_FLOPPYFORMS:
+    from envelope.forms import ContactFloppyForm as ContactForm
+else:
+    from envelope.forms import ContactForm
 
 
 logger = logging.getLogger('envelope.views')

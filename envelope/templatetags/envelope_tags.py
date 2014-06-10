@@ -8,6 +8,8 @@ Template tags related to the contact form.
 
 from django import template
 
+from envelope.settings import ENVELOPE_USE_FLOPPYFORMS
+
 try:
     import honeypot
 except ImportError:  # pragma: no cover
@@ -16,8 +18,13 @@ except ImportError:  # pragma: no cover
 
 register = template.Library()
 
+if ENVELOPE_USE_FLOPPYFORMS:
+    contact_form_tpl = 'envelope/contact_floppy_form.html'
+else:
+    contact_form_tpl = 'envelope/contact_form.html'
 
-@register.inclusion_tag('envelope/contact_form.html', takes_context=True)
+
+@register.inclusion_tag(contact_form_tpl, takes_context=True)
 def render_contact_form(context):
     """
     Renders the contact form which must be in the template context.

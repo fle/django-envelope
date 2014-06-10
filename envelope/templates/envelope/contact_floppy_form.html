@@ -1,0 +1,21 @@
+{% load url from future %}
+{% load i18n %}
+{% load envelope_tags %}
+{% load floppyforms %}
+
+<form action="{% url 'envelope-contact' %}" method="post">
+{% csrf_token %}
+{% antispam_fields %}
+<fieldset>
+    <table>
+    <tbody>
+    {% form form %}
+    </tbody>
+    <tfoot>
+        <tr>
+        <td colspan="2"><input type="submit" class="btn" value="{% trans "Send!" %}" /></td>
+        </tr>
+    </tfoot>
+    </table>
+</fieldset>
+</form>

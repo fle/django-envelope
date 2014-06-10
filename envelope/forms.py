@@ -9,7 +9,13 @@ Contact form class definitions.
 import logging
 from smtplib import SMTPException
 
-from django import forms
+from envelope.settings import ENVELOPE_USE_FLOPPYFORMS
+
+if ENVELOPE_USE_FLOPPYFORMS:
+    import floppyforms as forms
+else:
+    from django import forms
+
 from django.core import mail
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
@@ -133,3 +139,14 @@ class ContactForm(forms.Form):
         Override to use your own method choosing a template name.
         """
         return self.template_name
+
+
+class ContactFloppyForm(ContactForm):
+
+    class Meta:
+        widgets = {
+            'sender': forms.TextInput(),
+            'email': forms.TextInput(),
+            'subject': forms.Select(),
+            'message': forms.Textarea(),
+        }
