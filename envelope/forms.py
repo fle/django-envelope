@@ -76,7 +76,7 @@ class ContactForm(forms.Form):
         from_email = self.get_from_email()
         email_recipients = self.get_email_recipients()
         context = self.get_context()
-        message_body = render_to_string(self.get_template_names(), context)
+        message_body = self.get_message_body()
         try:
             message = mail.EmailMessage(
                 subject=subject,
@@ -114,6 +114,15 @@ class ContactForm(forms.Form):
         Override this method to customize the display of the subject.
         """
         return self.subject_intro + self.cleaned_data['subject']
+
+    def get_message_body(self):
+        """
+        Returns a string to be used as the email body.
+
+        Override this method to customize the display of the body.
+        """
+        return render_to_string(self.get_template_names(), context)
+
 
     def get_from_email(self):
         """
