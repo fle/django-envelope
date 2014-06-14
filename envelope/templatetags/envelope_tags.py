@@ -37,9 +37,7 @@ def render_contact_form(context):
         form = context['form']
     except KeyError:
         raise template.TemplateSyntaxError("There is no 'form' variable in the template context.")
-    return {
-        'form': form,
-    }
+    return context
 
 
 @register.simple_tag

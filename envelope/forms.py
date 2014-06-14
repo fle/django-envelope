@@ -75,7 +75,6 @@ class ContactForm(forms.Form):
         subject = self.get_subject()
         from_email = self.get_from_email()
         email_recipients = self.get_email_recipients()
-        context = self.get_context()
         message_body = self.get_message_body()
         try:
             message = mail.EmailMessage(
@@ -121,6 +120,7 @@ class ContactForm(forms.Form):
 
         Override this method to customize the display of the body.
         """
+        context = self.get_context()
         return render_to_string(self.get_template_names(), context)
 
 

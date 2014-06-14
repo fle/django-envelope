@@ -11,6 +11,7 @@ import logging
 from django.http import HttpResponseBadRequest
 from django.shortcuts import redirect
 from django.views.generic import FormView
+from django.core.urlresolvers import reverse_lazy
 
 from envelope import signals
 
@@ -50,6 +51,9 @@ class ContactView(FormView):
         with :class:`envelope.forms.ContactForm` form arguments for
         dynamic customization of the form.
 
+    ``form_action``
+        URL of the view which should treat the form.
+
     ``template_name``
         Full name of the template which will display
         the form. By default it is "envelope/contact.html".
@@ -61,6 +65,7 @@ class ContactView(FormView):
     """
     form_class = ContactForm
     form_kwargs = {}
+    form_action = reverse_lazy('envelope-contact')
     template_name = 'envelope/contact.html'
     success_url = None
 
@@ -115,6 +120,11 @@ class ContactView(FormView):
         When the form has errors, display it again.
         """
         return self.render_to_response(self.get_context_data(form=form))
+
+    def get_context_data(self, *args, **kwargs):
+        kwargs = super(ContactView, self).get_context_data(*args, **kwargs)
+        kwargs['form_action'] = self.form_action
+        return kwargs
 
 
 def filter_spam(sender, request, form, **kwargs):

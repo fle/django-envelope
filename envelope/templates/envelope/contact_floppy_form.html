@@ -3,7 +3,7 @@
 {% load envelope_tags %}
 {% load floppyforms %}
 
-<form action="{% url 'envelope-contact' %}" method="post">
+<form action="{{ form_action }}" method="post">
 {% csrf_token %}
 {% antispam_fields %}
 <fieldset>
